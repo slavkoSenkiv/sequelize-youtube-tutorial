@@ -6,9 +6,7 @@ const sequelize = new Sequelize(
     'pass', 
     {
         dialect: 'postgres',
-        freezeTableName: true,
-        timestamps: false
-    });
+        freezeTableName: true    });
 
 //authenticate
 sequelize.authenticate().then(() => {
@@ -33,7 +31,9 @@ const User = sequelize.define('users_test',{
     },
     username:{
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        validate: { len: [4, 6]}
+        //usecase to limit entry length or incorrect entry
     },
     password:{
         type: DataTypes.STRING
@@ -46,6 +46,9 @@ const User = sequelize.define('users_test',{
        type: DataTypes.BOOLEAN,
         defaultValue: true
     } 
+},
+{
+    timestamps: false
 });
 
 
@@ -67,19 +70,47 @@ User.sync({alter: true}).then((data) => {
 
     return user.save(); */
 
-    return User.create({
-        username: 'Dude' ,
-        password: 'pascode',
-        age: 32,
-        from_yupiter: false
+    return User.bulkCreate([
+        {
+            username: '14444' ,
+            password: 'passcode',
+            //age: 44,
+            from_yupiter: false
+        },
+        {
+            username: '24444' ,
+            password: 'passcode',
+            //age: 44,
+            from_yupiter: true
+        },
+        {
+            username: '34444' ,
+            password: 'passcode',
+            //age: 44,
+            from_yupiter: true
+        }
+    ],
+    {
+        validate: true
     });
 
 }).then((data)=>{
-    data.username = 'pizza';
-    return data.destroy();
-}).then((data)=>{
+    /* data.username = 'pizza';
+    data.age = 44;
+    //return data.destroy();
+    //return data.reload();
+    //return data.save({fields: ['age']}); */
+    //data.decrement({age: 2}); 
+    //usecase - simplify update when user decreases any integer like ingredient amount or guest number
+    //multiple decreaes at once are also possible with data.decrement({age: 2, height: 2});
+    data.forEach((dataPiece)=>{
+        console.log(dataPiece.toJSON());
+    })
+/* }).then((data)=>{
     console.log('user destroyed');
-    console.log(data.toJSON());
+    console.log('user returned to normal');
+    console.log('only age saved');   */
+
 }).catch((err) => {
     console.log('error syncing the table and model');
     console.log(err);
