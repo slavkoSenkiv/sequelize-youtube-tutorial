@@ -54,7 +54,7 @@ const User = sequelize.define('users_test',{
 
 User.sync({alter: true}).then((data) => {
     
-    const user = User.build({
+/*     const user = User.build({
         username: 'slav', 
         password: 'pass', 
         age: 27, 
@@ -65,11 +65,21 @@ User.sync({alter: true}).then((data) => {
     console.log(user.username);
     console.log(user.password);
 
-    return user.save();
+    return user.save(); */
+
+    return User.create({
+        username: 'Dude' ,
+        password: 'pascode',
+        age: 32,
+        from_yupiter: false
+    });
 
 }).then((data)=>{
-    console.log('user added to database');
-
+    data.username = 'pizza';
+    return data.destroy();
+}).then((data)=>{
+    console.log('user destroyed');
+    console.log(data.toJSON());
 }).catch((err) => {
     console.log('error syncing the table and model');
     console.log(err);
