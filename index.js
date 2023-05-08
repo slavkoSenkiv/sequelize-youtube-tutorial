@@ -58,6 +58,8 @@ User.sync({alter: true}).then(() => {
     // usecase for summing total ingredients weight or recipe cost
 
     return User.max('age');
+    // usecase for getting the most expensive engriedient or the most used dish
+
 }).then((data)=>{
     /* data.forEach((dataPiece)=>{
         console.log(dataPiece.toJSON());
