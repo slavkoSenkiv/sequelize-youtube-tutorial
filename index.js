@@ -53,10 +53,16 @@ User.sync({alter: true}).then(() => {
         {username: 'Float', age: 12}
     ]); */
 
+    //return User.update({password: 'pass2word'}, {where: {user_id: {[Op.lt]: 50}}});
+    //return User.sum('age');
+    // usecase for summing total ingredients weight or recipe cost
+
+    return User.max('age');
 }).then((data)=>{
-    data.forEach((dataPiece)=>{
+    /* data.forEach((dataPiece)=>{
         console.log(dataPiece.toJSON());
-    });
+    }); */
+    console.log(data);
 }).catch((err) => {
     console.log('error syncing the table and model');
     console.log(err);
