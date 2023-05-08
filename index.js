@@ -67,7 +67,33 @@ User.sync({alter: true}).then(() => {
     //return User.destroy({where: {}, truncate: true});
     //return User.findAll({order: [['age', 'ASC']]});
     //return User.findAll({attributes: ['age',[sequelize.fn('COUNT', sequelize.col('username')), 'names per age']],group: 'age'});
-    return User.findAll({where: {[Op.or]:{username: 'Float', age: 10}}});
+    //return User.findAll({where: {[Op.or]:{username: 'Float', age: 10}}});
+    //return User.findAll({where: {age: {[Op.gt]: 11}}}-
+    /* return User.findAll({
+
+        attributes:[
+        ['username', 'name'],
+        ['age', 'yo']
+        ],
+
+        where: {
+            age: {
+                [Op.or]:{
+                    [Op.lt]:11,
+                    [Op.eq]:11
+                }
+            }
+        }
+    }); */
+
+    return User.findAll({
+        attributes: [
+            ['username', 'name'],
+            ['age', 'yo']
+        ],
+        where: 
+            sequelize.where(sequelize.fn('char_length', sequelize.col('username')), 4)
+});
 
 }).then((data)=>{
     data.forEach((dataPiece)=>{
